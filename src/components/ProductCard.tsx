@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Chip, Card, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
+import { Box, Button, Chip, Card, CardActions, CardMedia, CardContent, Typography } from "@mui/material";
 import styled from "styled-components";
 import defaultImage from "../assets/noImage.jpg";
 import "../App.css";
@@ -19,18 +19,25 @@ export interface ProductDetailsType {
 const ProductCard = ({ productDetails }: { productDetails: ProductDetailsType }) => {
   const { name, description, image, price, category } = productDetails;
   return (
-    <Card style={{ margin: "10px" }} sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image={image || defaultImage} title={name} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+    <Card style={{ margin: "40px 20px" }} sx={{ maxWidth: 345 }}>
+      <CardMedia sx={{ height: 160 }} image={image || defaultImage} title={name} />
+      <CardContent style={{ position: "relative", paddingBottom: 0 }}>
+        <Chip
+          className={category}
+          size="small"
+          label={category}
+          style={{ position: "absolute", left: 20, fontSize: 12 }}
+        />
+        <Typography gutterBottom variant="h5" component="div" style={{ marginTop: "15px" }}>
           {name}
         </Typography>
         <StyledDescription>{description}</StyledDescription>
-        <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-          <Chip className={category} label={category} />
-          <p>{price}</p>
-        </Box>
+        {/* <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}></Box> */}
       </CardContent>
+      <CardActions style={{ margin: "0 30px", justifyContent: "space-between" }}>
+        <p style={{ fontSize: "22px", fontWeight: "600" }}>{price}</p>
+        <Button size="medium">Add To Cart</Button>
+      </CardActions>
     </Card>
   );
 };
