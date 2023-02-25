@@ -35,7 +35,10 @@ function App() {
 
   return (
     <div className="App">
-      <IconButton onClick={toggleDrawer} style={{ position: "absolute", top: 30, right: 40, outline: "none" }}>
+      <IconButton
+        onClick={toggleDrawer}
+        style={{ position: "fixed", top: "1.25rem", right: "1.5rem", outline: "none" }}
+      >
         <Badge badgeContent="0" color="primary">
           <ShoppingCartIcon />
         </Badge>
