@@ -40,3 +40,53 @@
 .read-the-docs {
   color: #888;
 }
+
+.App {
+  display: "flex";
+  justify-content: "center";
+}
+
+.Plexiglass {
+  background-color: #a6cee3 !important;
+  font-weight: 800;
+}
+.Wood {
+  background-color: #1f78b4 !important;
+  font-weight: 800;
+}
+.Rubber {
+  background-color: #b2df8a !important;
+  font-weight: 800;
+}
+.Vinyl {
+  background-color: #33a02c !important;
+  font-weight: 800;
+}
+.Plastic {
+  background-color: #fb9a99 !important;
+  font-weight: 800;
+}
+.Aluminum {
+  background-color: #e31a1c !important;
+  font-weight: 800;
+}
+.Steel {
+  background-color: #fdbf6f !important;
+  font-weight: 800;
+}
+.Brass {
+  background-color: #ff7f00 !important;
+  font-weight: 800;
+}
+.Granite {
+  background-color: #cab2d6 !important;
+  font-weight: 800;
+}
+.Glass {
+  background-color: #6a3d9a !important;
+  font-weight: 800;
+}
+.Stone {
+  background-color: #ffff99 !important;
+  font-weight: 800;
+}

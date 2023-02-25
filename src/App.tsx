@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { products } from "./assets/products";
+import { Pagination } from "@mui/material";
+import ProductCard from "./components/ProductCard";
+import { ProductDetailsType } from "./components/ProductCard";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsShown, setProductsShown] = useState(products.slice(0, 30));
+
+  useEffect(() => {}, [currentPage]);
+
   const categories = products.reduce((categories, product) => {
     categories.add(product.category);
     return categories;
@@ -12,25 +20,34 @@ function App() {
   console.log(products[0]);
   console.log(categories);
 
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log(value);
+    setCurrentPage(value);
+    setProductsShown(products.slice(value * 30 - 30, value * 30));
+  };
+
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Some Store..</h1>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {productsShown.map((product) => {
+          return <ProductCard productDetails={product} key={product.id} />;
+        })}
+        <Pagination
+          style={{ marginTop: "100px" }}
+          count={Math.round(products.length / 30)}
+          page={currentPage}
+          onChange={handleChange}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-        <p>{products[0].id}</p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </div>
   );
 }
