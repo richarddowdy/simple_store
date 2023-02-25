@@ -26,9 +26,9 @@ const ProductCard = ({ productDetails }: { productDetails: ProductDetailsType })
           className={category}
           size="small"
           label={category}
-          style={{ position: "absolute", left: 20, fontSize: 12 }}
+          style={{ position: "absolute", left: 20, fontSize: ".625rem" }}
         />
-        <Typography gutterBottom variant="h5" component="div" style={{ marginTop: "15px" }}>
+        <Typography gutterBottom variant="h5" component="div" style={{ marginTop: "1.625rem" }}>
           {name}
         </Typography>
         <StyledDescription>{description}</StyledDescription>
