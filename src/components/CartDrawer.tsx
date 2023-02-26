@@ -8,13 +8,15 @@ import { CartLineItemType } from "../App";
 const CartDrawer = ({ showCartDrawer, toggleDrawer }: { showCartDrawer: boolean; toggleDrawer: () => void }) => {
   const { cart } = useContext(CartContext);
 
-  const cartTotal = useMemo((): number => {
-    return cart.reduce((total: number, i: CartLineItemType) => {
-      const price = parseFloat(i.item.price.slice(1));
-      total += i.quantity * price;
-      return total;
-    }, 0);
-  }, [cart]);
+  const cartTotal = useMemo(
+    (): number =>
+      cart.reduce((total: number, i: CartLineItemType) => {
+        const price = parseFloat(i.item.price.slice(1));
+        total += i.quantity * price;
+        return total;
+      }, 0),
+    [cart]
+  );
 
   return (
     <Drawer anchor={"right"} open={showCartDrawer} onClose={toggleDrawer}>
@@ -25,13 +27,23 @@ const CartDrawer = ({ showCartDrawer, toggleDrawer }: { showCartDrawer: boolean;
         >
           <ChevronLeft />
         </IconButton>
-        <Typography style={{ textAlign: "center", margin: "60px 0 40px" }} variant="h3">
+        <Typography
+          style={{
+            textAlign: "center",
+            margin: "60px 0 40px",
+          }}
+          variant="h3"
+        >
           Cart
         </Typography>
         <List>
-          {cart.map((cartItem) => (
-            <CartLineItem cartItem={cartItem} />
-          ))}
+          {cart.length ? (
+            cart.map((cartItem) => <CartLineItem cartItem={cartItem} />)
+          ) : (
+            <Typography sx={{ textAlign: "center" }} variant="body1">
+              Add Items to Cart
+            </Typography>
+          )}
         </List>
         <Box
           style={{
