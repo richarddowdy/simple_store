@@ -1,8 +1,21 @@
-import React, { useState } from "react";
-import { Box, Button, Drawer, Typography, List, ListItem, ListItemText, IconButton } from "@mui/material";
-import { ChevronLeft, RemoveCircleOutline, AddCircleOutline, Delete } from "@mui/icons-material";
+import React, { useContext, useMemo } from "react";
+import { Box, Button, Drawer, Typography, List, IconButton } from "@mui/material";
+import { ChevronLeft } from "@mui/icons-material";
+import CartLineItem from "./CartLineItem";
+import { CartContext } from "./CartProvider";
+import { CartLineItemType } from "../App";
 
-const CartDrawer = ({ showCartDrawer, toggleDrawer }) => {
+const CartDrawer = ({ showCartDrawer, toggleDrawer }: { showCartDrawer: boolean; toggleDrawer: () => void }) => {
+  const { cart } = useContext(CartContext);
+
+  const cartTotal = useMemo((): number => {
+    return cart.reduce((total: number, i: CartLineItemType) => {
+      const price = parseFloat(i.item.price.slice(1));
+      total += i.quantity * price;
+      return total;
+    }, 0);
+  }, [cart]);
+
   return (
     <Drawer anchor={"right"} open={showCartDrawer} onClose={toggleDrawer}>
       <Box style={{ width: 350, height: "100%", position: "relative" }}>
@@ -16,28 +29,9 @@ const CartDrawer = ({ showCartDrawer, toggleDrawer }) => {
           Cart
         </Typography>
         <List>
-          <ListItem>
-            <div style={{ display: "flex", flexDirection: "row", width: "100%", borderBottom: "1px solid black" }}>
-              <ListItemText
-                primaryTypographyProps={{ fontSize: ".875rem" }}
-                secondaryTypographyProps={{ fontSize: ".5rem" }}
-                primary="Single-line item"
-                secondary={"Secondary text"}
-              />
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <IconButton>
-                  <RemoveCircleOutline />
-                </IconButton>
-                <Typography>{1}</Typography>
-                <IconButton>
-                  <AddCircleOutline />
-                </IconButton>
-                <IconButton>
-                  <Delete />
-                </IconButton>
-              </div>
-            </div>
-          </ListItem>
+          {cart.map((cartItem) => (
+            <CartLineItem cartItem={cartItem} />
+          ))}
         </List>
         <Box
           style={{
@@ -55,7 +49,7 @@ const CartDrawer = ({ showCartDrawer, toggleDrawer }) => {
               margin: 20,
             }}
           >
-            <Typography>Total: $44.44</Typography>
+            <Typography>Total: ${cartTotal.toFixed(2)}</Typography>
             <Button>Checkout</Button>
           </div>
         </Box>

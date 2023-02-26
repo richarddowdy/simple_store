@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { products } from "./assets/products";
 import { Pagination, Badge, IconButton } from "@mui/material";
 import ProductCard from "./components/ProductCard";
-import { ProductDetailsType } from "./components/ProductCard";
+import { ProductDetails } from "./components/ProductCard";
 import CartDrawer from "./components/CartDrawer";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { CartContext } from "./components/CartProvider";
+
+export interface CartLineItemType {
+  item: ProductDetails;
+  itemId: string;
+  quantity: number;
+}
+
+export interface Cart extends Array<CartLineItemType> {}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { cart } = useContext(CartContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsShown, setProductsShown] = useState(products.slice(0, 30));
   const [showCartDrawer, setShowCartDrawer] = useState(false);
-
-  useEffect(() => {}, [currentPage]);
 
   const categories = products.reduce((categories, product) => {
     categories.add(product.category);
@@ -23,13 +30,13 @@ function App() {
   console.log(products[0]);
   console.log(categories);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number): void => {
     console.log(value);
     setCurrentPage(value);
     setProductsShown(products.slice(value * 30 - 30, value * 30));
   };
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setShowCartDrawer(!showCartDrawer);
   };
 
@@ -39,7 +46,7 @@ function App() {
         onClick={toggleDrawer}
         style={{ position: "fixed", top: "1.25rem", right: "1.5rem", outline: "none" }}
       >
-        <Badge badgeContent="0" color="primary">
+        <Badge badgeContent={String(cart.reduce((total, i) => (total += i.quantity), 0))} color="primary">
           <ShoppingCartIcon />
         </Badge>
       </IconButton>

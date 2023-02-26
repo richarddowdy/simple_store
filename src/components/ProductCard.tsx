@@ -1,10 +1,11 @@
-import React from "react";
-import { Box, Button, Chip, Card, CardActions, CardMedia, CardContent, Typography } from "@mui/material";
+import React, { useContext } from "react";
+import { Button, Chip, Card, CardActions, CardMedia, CardContent, Typography } from "@mui/material";
 import styled from "styled-components";
 import defaultImage from "../assets/noImage.jpg";
 import "../App.css";
+import { CartContext } from "./CartProvider";
 
-export interface ProductDetailsType {
+export interface ProductDetails {
   id: string;
   name: string;
   description: string;
@@ -16,11 +17,16 @@ export interface ProductDetailsType {
   model: string;
 }
 
-const ProductCard = ({ productDetails }: { productDetails: ProductDetailsType }) => {
-  const { name, description, image, price, category } = productDetails;
+const ProductCard = ({ productDetails }: { productDetails: ProductDetails }) => {
+  const { name, description, image, price, category, quantity } = productDetails;
+  const { addToCart } = useContext(CartContext);
   return (
     <Card style={{ margin: "40px 20px" }} sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 160 }} image={image || defaultImage} title={name} />
+      <CardMedia
+        image={defaultImage}
+        sx={{ height: 160, backgroundImage: `url(${image}), url(${defaultImage}) !important` }}
+        title={name}
+      />
       <CardContent style={{ position: "relative", paddingBottom: 0 }}>
         <Chip
           className={category}
@@ -32,11 +38,24 @@ const ProductCard = ({ productDetails }: { productDetails: ProductDetailsType })
           {name}
         </Typography>
         <StyledDescription>{description}</StyledDescription>
-        {/* <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}></Box> */}
       </CardContent>
       <CardActions style={{ margin: "0 30px", justifyContent: "space-between" }}>
         <p style={{ fontSize: "22px", fontWeight: "600" }}>{price}</p>
-        <Button size="medium">Add To Cart</Button>
+        <Button
+          style={{ outline: "none" }}
+          color={quantity === 0 ? "error" : "primary"}
+          disabled={quantity === 0}
+          size="small"
+          onClick={() =>
+            addToCart({
+              item: productDetails,
+              itemId: productDetails.id,
+              quantity: 1,
+            })
+          }
+        >
+          {quantity === 0 ? "Out of Stock" : "Add To Cart"}
+        </Button>
       </CardActions>
     </Card>
   );
