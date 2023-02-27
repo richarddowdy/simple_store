@@ -38,7 +38,7 @@ const CartDrawer = ({ showCartDrawer, toggleDrawer }: { showCartDrawer: boolean;
         </Typography>
         <List>
           {cart.length ? (
-            cart.map((cartItem) => <CartLineItem cartItem={cartItem} />)
+            cart.map((cartItem) => <CartLineItem key={cartItem.itemId} cartItem={cartItem} />)
           ) : (
             <Typography sx={{ textAlign: "center" }} variant="body1">
               Add Items to Cart

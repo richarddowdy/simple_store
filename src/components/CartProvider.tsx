@@ -25,7 +25,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     cart: cart,
     addToCart: (newCartItem: CartLineItemType) => {
       const { item, itemId } = newCartItem;
-      console.log(itemId);
       if (cart.find((i) => i.itemId === itemId)) {
         const newCart = cart.map((i: CartLineItemType) => {
           if (i.itemId === itemId) {
